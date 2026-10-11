@@ -65,4 +65,4 @@ jobs:
           settings: "sftp:auto-confirm=yes; mirror:parallel-transfer-count=4; mirror:use-pget-n=8"
       - name: Clear cache (optional)
         run: |
-          ssh -p ${{ secrets.CPANEL_SSH_PORT }} ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} 'cd ${{ secrets.CPANEL_PATH }} && php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear'
+          ssh -v -p ${{ secrets.CPANEL_SSH_PORT }} ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} 'cd ${{ secrets.CPANEL_PATH }} && php artisan cache:clear'
