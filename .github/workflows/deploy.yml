@@ -1,0 +1,68 @@
+name: SFTP Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore file modification times
+        uses: chetan/git-restore-mtime-action@v2
+
+      # ✅ ADD: Setup Node (this is the missing piece)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      # ✅ ADD: Install JS dependencies
+      - name: Install frontend dependencies
+        run: npm ci
+
+      # ✅ ADD: Build assets (Tailwind + Vite)
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Setup SSH key and known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.CPANEL_SSH_PORT }} ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
+
+      # ✅ DEPLOY (now includes public/build)
+      - name: Deploy via SFTP using lftp
+        uses: pressidium/lftp-mirror-action@v1
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          port: ${{ secrets.CPANEL_SSH_PORT }}
+          user: ${{ secrets.CPANEL_USERNAME }}
+          pass: ${{ secrets.CPANEL_PASSWORD }}
+          localDir: "./"
+          remoteDir: ${{ secrets.CPANEL_PATH }}
+          reverse: true
+          options: >
+            --exclude-glob=.git/
+            --exclude-glob=.git/**
+            --exclude-glob=node_modules/
+            --exclude-glob=vendor/
+            --exclude-glob=.github/
+            --exclude-glob=.env
+            --exclude-glob=storage/app/public/
+            --only-newer
+            --no-perms
+          restoreMtime: true
+          settings: "sftp:auto-confirm=yes; mirror:parallel-transfer-count=4; mirror:use-pget-n=8"
+      - name: Clear cache (optional)
+        run: |
+          ssh -p ${{ secrets.CPANEL_SSH_PORT }} ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} 'cd ${{ secrets.CPANEL_PATH }} && php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear'
