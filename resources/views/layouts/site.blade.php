@@ -48,7 +48,7 @@
 <header x-data="{ open: false }" class="sticky top-0 z-40 bg-ink text-white">
     <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-            <img src="{{ $logo }}" alt="" class="h-16 w-full rounded-md">
+            <img src="{{ $logo }}" alt="" class="h-32 w-full rounded-md">
             {{-- <span class="font-display text-xl font-extrabold">{{ $company }}</span> --}}
         </a>
         <nav class="hidden items-center gap-7 md:flex" aria-label="Main">
