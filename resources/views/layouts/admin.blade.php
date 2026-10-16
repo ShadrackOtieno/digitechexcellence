@@ -19,8 +19,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
-    <title>@yield('title', 'Back office') | {{ $site['company_name'] ?? 'DevAdvantage' }}</title>
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <title>@yield('title', 'Back office') | {{ $site['company_name'] ?? 'Digitech Excellence' }}</title>
+    <link rel="icon" href="{{ asset('favicon1.svg') }}" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Instrument Sans', system-ui, sans-serif; }
