@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', $company)@hasSection('title') | {{ $company }}@endif</title>
     <meta name="description" content="@yield('description', $site['meta_description'] ?? '')">
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('favicon1.svg') }}" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -48,7 +48,7 @@
 <header x-data="{ open: false }" class="sticky top-0 z-40 bg-ink text-white">
     <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-            <img src="{{ $logo }}" alt="" class="h-32 w-full rounded-md">
+            <img src="{{ $logo }}" alt="" class="h-40 w-40 rounded-md">
             {{-- <span class="font-display text-xl font-extrabold">{{ $company }}</span> --}}
         </a>
         <nav class="hidden items-center gap-7 md:flex" aria-label="Main">
@@ -78,7 +78,7 @@
 <footer class="bg-night text-white">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-4">
         <div class="md:col-span-2">
-            <div class="flex items-center gap-2.5"><img src="{{ $logo }}" alt="" class="h-16 w-42 rounded-md"></div>
+            <div class="flex items-center gap-2.5"><img src="{{ $logo }}" alt="" class="h-40 w-40 rounded-md"></div>
             <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/70">{{ $site['tagline'] ?? '' }}</p>
             <div class="mt-5 flex gap-3">
                 @foreach (['github', 'linkedin', 'twitter', 'instagram'] as $s)
